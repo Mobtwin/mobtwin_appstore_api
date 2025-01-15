@@ -49,7 +49,7 @@ const searchApps = async (req, res, next) => {
     return apps;
   }
   const proxy = proxyV6Storage.getNextProxy();
-  if(proxy){
+  if(true){
     store
     .search({
       term: req.query.q,
@@ -58,7 +58,7 @@ const searchApps = async (req, res, next) => {
       page: start,
       num,
       requestOptions: {
-        proxy
+        proxy:null
       }
     })
     .then((apps) => apps.slice(start, start + num).map(cleanUrls(req)))
@@ -68,7 +68,7 @@ const searchApps = async (req, res, next) => {
     .catch(next);
   }else{
     res.json({
-      message : "no active proxies"
+      message : "no active proxies 1"
     })
   }
 };
@@ -84,19 +84,19 @@ const searchSuggestions = async (req, res, next) => {
   });
 
   const proxy = proxyV6Storage.getNextProxy();
-  if(proxy){
+  if(true){
     store
     .suggest({
       term: req.query.suggest,
       requestOptions: {
-        proxy
+        proxy:null
       }
     })
     .then(res.json.bind(res))
     .catch(next);
   }else{
     res.json({
-      message : "no active proxies"
+      message : "no active proxies 2"
     })
   }
   
@@ -123,14 +123,15 @@ const getApps = async (req, res, next) => {
     if(opt.category){
       opt.category = parseInt(opt.category);
     }
+
     const proxy = proxyV4Storage.getNextProxy();
-    if(proxy){
+    if(true){
       store
       .list({
         ...opt,
         num: 200,
         requestOptions: {
-          proxy
+          proxy:null
         }
       })
       .then((apps) => apps.slice(start, start + num).map(cleanUrls(req)))
@@ -140,7 +141,7 @@ const getApps = async (req, res, next) => {
       .catch(next);
     }else{
       res.json({
-        message : "no active proxies"
+        message : "no active proxies 3"
       })
     }
   }
@@ -150,17 +151,17 @@ const getApps = async (req, res, next) => {
 const getAppDetails = async (req, res, next) => {
   const { appId} = req.params;
   const proxy = proxyV6Storage.getNextProxy();
-  if(proxy){
+  if(true){
     store
     .app({ id : appId, ...req.params, requestOptions: {
-      proxy
+      proxy:null
     } })
     .then((app) => cleanUrls(req)(app))
     .then(res.json.bind(res))
     .catch(next);
   }else{
     res.json({
-      message : "no active proxies"
+      message : "no active proxies 4"
     })
   }
 };
@@ -177,10 +178,10 @@ const getSimilarApps = async (req, res, next) => {
     opts.appId = req.params.appId;
   }
   const proxy = proxyV6Storage.getNextProxy();
-  if(proxy){
+  if(true){
     store
     .similar({...opts, requestOptions: {
-      proxy
+      proxy:null
     }})
     .then((apps) => apps.map(cleanUrls(req)))
     .then(toList)
@@ -188,7 +189,7 @@ const getSimilarApps = async (req, res, next) => {
     .catch(next);
   }else{
     res.json({
-      message : "no active proxies"
+      message : "no active proxies 5"
     })
   }
 };
@@ -210,13 +211,13 @@ const getAppReviews = async (req, res, next) => {
 
   const opts = req.query;
   const proxy = proxyV6Storage.getNextProxy();
-  if(proxy){
+  if(true){
     store
     .reviews({
       ...opts,
       appId: req.params.appId,
       requestOptions: {
-        proxy
+        proxy:null
       }
     })
     .then(toList)
@@ -225,7 +226,7 @@ const getAppReviews = async (req, res, next) => {
     .catch(next);
   }else{
     res.json({
-      message : "no active proxies"
+      message : "no active proxies 6"
     })
   }
 };
@@ -234,20 +235,20 @@ const getAppReviews = async (req, res, next) => {
 const getAppPrivacy = async (req, res, next) => {
     const opts = req.query;
     const proxy = proxyV6Storage.getNextProxy();
-  if(proxy){
+  if(true){
     store
         .privacy({
         ...opts,
         id: req.params.appId,
         requestOptions: {
-          proxy
+          proxy:null
         }
         })
         .then(res.json.bind(res))
         .catch(next);
   }else{
     res.json({
-      message : "no active proxies"
+      message : "no active proxies 7"
     })
   }
     
@@ -257,20 +258,20 @@ const getAppPrivacy = async (req, res, next) => {
 const getAppRatings = async (req, res, next) => {
     const opts = req.query;
     const proxy = proxyV6Storage.getNextProxy();
-  if(proxy){
+  if(true){
     store
         .ratings({
         ...opts,
         id: req.params.appId,
         requestOptions: {
-          proxy
+          proxy:null
         }
         })    
         .then(res.json.bind(res))
         .catch(next);
   }else{
     res.json({
-      message : "no active proxies"
+      message : "no active proxies 8"
     })
   }
     
@@ -280,15 +281,15 @@ const getAppRatings = async (req, res, next) => {
 const getDeveloperApps = async (req, res, next) => {
     const opts = { devId: req.params.devId, ...req.query };
     const proxy = proxyV6Storage.getNextProxy();
-  if(proxy){
+  if(true){
     store.developer({...opts, requestOptions: {
-      proxy
+      proxy:null
     }})
       .then(res.json.bind(res))
       .catch(next);
   }else{
     res.json({
-      message : "no active proxies"
+      message : "no active proxies 9"
     })
   }
     
