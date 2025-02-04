@@ -5,7 +5,7 @@ ENV PORT=8080
 RUN npm install -g pm2
 FROM stage
 # Set the working directory inside the container
-WORKDIR /var/www/gp-api
+WORKDIR /var/www/as-api
 
 # Copy only the production dependencies
 # COPY package*.json ./
