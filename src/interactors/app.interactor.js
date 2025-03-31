@@ -49,7 +49,7 @@ const searchApps = async (req, res, next) => {
     return apps;
   }
   const proxy = proxyV6Storage.getNextProxy();
-  if(true){
+  if(proxy){
     store
     .search({
       term: req.query.q,
@@ -57,9 +57,7 @@ const searchApps = async (req, res, next) => {
       country: req.query.country,
       page: start,
       num,
-      requestOptions: {
-        proxy:null
-      }
+      proxy
     })
     .then((apps) => apps.slice(start, start + num).map(cleanUrls(req)))
     .then(toList)
@@ -84,13 +82,11 @@ const searchSuggestions = async (req, res, next) => {
   });
 
   const proxy = proxyV6Storage.getNextProxy();
-  if(true){
+  if(proxy){
     store
     .suggest({
       term: req.query.suggest,
-      requestOptions: {
-        proxy:null
-      }
+      proxy
     })
     .then(res.json.bind(res))
     .catch(next);
@@ -124,15 +120,13 @@ const getApps = async (req, res, next) => {
       opt.category = parseInt(opt.category);
     }
 
-    const proxy = proxyV4Storage.getNextProxy();
-    if(true){
+    const proxy = proxyV6Storage.getNextProxy();
+    if(proxy){
       store
       .list({
         ...opt,
         num: 200,
-        requestOptions: {
-          proxy:null
-        }
+        proxy
       })
       .then((apps) => apps.slice(start, start + num).map(cleanUrls(req)))
       .then(toList)
@@ -151,11 +145,9 @@ const getApps = async (req, res, next) => {
 const getAppDetails = async (req, res, next) => {
   const { appId} = req.params;
   const proxy = proxyV6Storage.getNextProxy();
-  if(true){
+  if(proxy){
     store
-    .app({ id : appId, ...req.params, requestOptions: {
-      proxy:null
-    } })
+    .app({ id : appId, ...req.params, proxy })
     .then((app) => cleanUrls(req)(app))
     .then(res.json.bind(res))
     .catch(next);
@@ -178,11 +170,9 @@ const getSimilarApps = async (req, res, next) => {
     opts.appId = req.params.appId;
   }
   const proxy = proxyV6Storage.getNextProxy();
-  if(true){
+  if(proxy){
     store
-    .similar({...opts, requestOptions: {
-      proxy:null
-    }})
+    .similar({...opts, proxy})
     .then((apps) => apps.map(cleanUrls(req)))
     .then(toList)
     .then(res.json.bind(res))
@@ -211,14 +201,12 @@ const getAppReviews = async (req, res, next) => {
 
   const opts = req.query;
   const proxy = proxyV6Storage.getNextProxy();
-  if(true){
+  if(proxy){
     store
     .reviews({
       ...opts,
       appId: req.params.appId,
-      requestOptions: {
-        proxy:null
-      }
+      proxy
     })
     .then(toList)
     .then(paginate)
