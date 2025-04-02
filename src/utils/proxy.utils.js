@@ -53,6 +53,8 @@ class Proxy {
         console.log("index:",this.currentProxyIndex, " proxy :", proxy)
         return proxy;
       }
+      console.log("no proxie available returning null")
+      return null;
     };
     addActiveOne = (proxy) => {
       let isExist = false;
