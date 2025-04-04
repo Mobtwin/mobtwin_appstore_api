@@ -317,13 +317,14 @@ const getAppRatings = async (req, res, next) => {
 const getDeveloperApps = async (req, res, next) => {
   const opts = { devId: req.params.devId, ...req.query };
   const proxy = proxyV6Storage.getNextProxy();
-  if (true) {
+  if (proxy) {
     store
       .developer({
         ...opts,
         requestOptions: {
-          proxy: null,
+          proxy,
         },
+        proxy
       })
       .then(res.json.bind(res))
       .catch(next);
