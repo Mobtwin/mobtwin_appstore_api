@@ -151,12 +151,21 @@ const getApps = async (req, res, next) => {
 };
 
 const appDetailsService = async (proxy,appId,params,res,next,req,retry=false) => {
+  const [host,port,username,password] = proxy.split(":");
+  const Proxy = {
+    host,
+    port:parseInt(port),
+    auth:{
+      username,password
+    }
+  }
+  console.log({proxy:Proxy})
   store
       .app({
         id: appId,
         ...params,
         requestOptions: {
-          proxy: proxy,
+          proxy: Proxy,
         },
       })
       .then((app) => cleanUrls(req)(app))
@@ -175,14 +184,14 @@ const appDetailsService = async (proxy,appId,params,res,next,req,retry=false) =>
 // app details
 const getAppDetails = async (req, res, next) => {
   const { appId } = req.params;
-  const proxy = proxyV6Storage.getNextProxy();
-  if (proxy) {
-    appDetailsService(proxy,appId,{appId},res,next,req);
-  } else {
-    res.json({
-      message: "no active proxies 4",
-    });
-  }
+  // const proxy = proxyV6Storage.getNextProxy();
+  // if (proxy) {
+    appDetailsService(req.query.proxy,appId,{appId},res,next,req);
+  // } else {
+  //   res.json({
+  //     message: "no active proxies 4",
+  //   });
+  // }
 };
 const similarService = async(proxy,opts,res,next,req,retry=true) => {
   store
